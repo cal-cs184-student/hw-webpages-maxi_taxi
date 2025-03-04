@@ -28,89 +28,244 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 2 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Names: Max Tse</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-maxi_taxi/hw2/index.html">https://cal-cs184-student.github.io/hw-webpages-maxi_taxi/hw2/index.html</a>
 
 		<br>
 		
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw2-maxitaxi">https://github.com/cal-cs184-student/sp25-hw2-maxitaxi</a>
 
-		<figure>
-			<img src="teapot.png" alt="Teapot" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
-		</figure>
 
 		<!--
 		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this assignment, I implemented the Bezier curves and surfaces using the de Casteljau algorithm, manipulated triangle meshes with the half-edge data structure, and implemented loop subdivision for mesh refinement.
 
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+			The de Casteljau algorithm is a recursive algorithm for evaluating Bezier curves. It does this through linear interpolation of the control points. 
+			I implemented this algorithm by first taking the vectors of the control points and applying linear interpolation to them. Then I computed an intermediate
+			point between the first and second control points, and then another point between the second and third control points using the this formula \( (1-t)*p_i + t*p_{i+1}  \) . I repeated this process until I had computed the final point.
+		</p>
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="s0.png" width="400px"/>
+				  <figcaption>The 6 control points of the cubic Bezier curve.</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
+					<img src="s1.png" width="400px"/>
+					<figcaption>Step 1</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="s2.png" width="400px"/>
+					<figcaption>Step 2</figcaption>
+				  </td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="s3.png" width="400px"/>
+				  <figcaption>Step 3</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="s4.png" width="400px"/>
+				  <figcaption>Step 4</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="sf.png" width="400px"/>
+					<figcaption>Final Step</figcaption>
+				  </td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="s.png" width="400px"/>
+				  <figcaption>Completed Bezier Curve</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="sr.png" width="400px"/>
+				  <figcaption>Slightly different Bezier curve by moving the original control points around and modifying the parameter t</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 
 		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		The de Casteljau algorithm can be extended to 2D Bezier surfaces by applying the 1D algorithm to each row and column of the control points. 
+		In my implementation, the de Casteljau algorithm is extended to 2D Bézier surfaces by first applying the 1D algorithm recursively to the similar function in part 1 along the u-parameter to each row of control points, reducing the 2D grid to a 1D set of intermediate points. 
+		Then, I apply the 1D algorithm again along the v-parameter to these intermediate points, yielding the final interpolated point on the surface. This approach effectively evaluates the Bézier surface by performing successive 1D interpolations.
+
+		<figure>
+			<img src="pot.png" alt="Lion" style="width:50%"/>
+			<figcaption> Image of the Teapot </figcaption>
+		</figure>
 
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
 		<h3>Part 3: Area-weighted vertex normals</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		
+		I implemented area weighted vertex normals by iterating over all the face incident to the vertex and summing the normals of these faces, weighted by their areas.
+		Then for each face I get three of the vertex positions and find the face normal value by calculating the cross product of two edges of the face. 
+		After this I find the area of the triangle by taking half the magnitude of the cross product and then scale the face normal by this value. 
+		Finally I normailize the vector to get the final unit normal.
+
+		<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			<tr>
+			  <td style="text-align: center;">
+				<img src="before.png" width="400px"/>
+				<figcaption>Without Vertex Normals (Wireframe Off)</figcaption>
+			  </td>
+			  <td style="text-align: center;">
+				<img src="after.png" width="400px"/>
+				<figcaption>With Vertex Normals (Wireframe Off)</figcaption>
+			  </td>
+			</tr>
+		  </table>
 
 		<h3>Part 4: Edge flip</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		I implemented the edge flip function by first identifying all the half-edges, vertices, edges, and faces associated with the edge to be flipped. 
+		Then, I check if it is a boundary edge. If it is a boundary edge, I return the edge without making any changes. If it is not a boundary edge, 
+		I update the half-edge by reassigning the next, twin, vertex, edge, and face pointers. I then set up the neighbors for each half-edge and update the
+		vertices, edges, and faces. Finally, I return the modified edge
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				<td style="text-align: center;">
+					<img src="4before.png" width="400px"/>
+					<figcaption>Before Edge Flip</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="4after.png" width="400px"/>
+					<figcaption>After Random Edge Flips</figcaption>
+				</td>
+				</tr>
+			</table>
+		</div>
 
 		<h3>Part 5: Edge split</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
+		I implemented the edge split function by first identifying the half-edges, vertices, edges, and faces associated with the edge to be split. 
+		Then, I check if the edge is on a boundary by verifying if either of its adjacent faces is a boundary face. If it is a boundary edge, I return one of its 
+		existing vertices without making any modifications. If it is not a boundary edge, I create a new vertex at the midpoint of the edge and introduce three new 
+		edges and six new half-edges to accommodate the split. I then update the half-edge structure by reassigning the next, twin, vertex, edge, and face pointers.
+		After that, I assign the new and existing half-edges to their respective faces and vertices while ensuring the edges are marked correctly. 
+		Finally, I return the newly created midpoint vertex, completing the edge split.
+
+        <div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				<td style="text-align: center;">
+					<img src="4before.png" width="400px"/>
+					<figcaption>Before Edge Split</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="5after.png" width="400px"/>
+					<figcaption>After Random Edge Split</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="5afterb.png" width="400px"/>
+					<figcaption>After Random Edge Split and Edge Flip</figcaption>
+				</td>
+				</tr>
+			</table>
+		</div>
+		
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-		<h2>(Optional) Section III: Potential Extra Credit - Art Competition: Model something Creative</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		I implemented the loop subdivision function by first computing all the new positions for the vertices and marking them as part of the original mesh. 
+		Then I computed the new positions for the edge midpoints. Next, I split all the original edges and inserted new vertices at the computed midpoints.
+		After that, I flipped the edges that connect an old and new vertex to maintain a balanced mesh structure.
+		Finally, I updated all the vertex positions with their computed values.
 
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<h3>Showing the subdivision process</h3>
+		</div>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				<td style="text-align: center;">
+					<img src="61.png" width="400px"/>
+					<figcaption>Original</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="62.png" width="400px"/>
+					<figcaption>Subdivision Step 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="63.png" width="400px"/>
+					<figcaption>Subdivision Step 2</figcaption>
+				</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;">
+						<img src="64.png" width="400px"/>
+						<figcaption>Subdivision Step 3</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="65.png" width="400px"/>
+						<figcaption>Subdivision Step 4</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="66.png" width="400px"/>
+						<figcaption>Subdivision Step 5</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<p>
+			As you can see in the images above when we continue to subdivide, the sharp corners and edges begin to smooth out. When you pre-split some of the edges before subdividing,
+			you are able to better maintain the original shape of the object. Further explaining this in the above image of the cube before pre-processing the cube doesnt contain symmetric vertices
+			so when we subdivide, the shape becomes less symmetric. However in the image below if we pre-split the edges before subdividing, the cube starts with symmetric vertices. 
+			Thus when we subdivide it creates a more symmetric cube shape.
+
+		</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<h3>Showing the subdivision process with pre-splitting</h3>
+		</div>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				<td style="text-align: center;">
+					<img src="71.png" width="400px"/>
+					<figcaption>Original</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="72.png" width="400px"/>
+					<figcaption>Subdivision Step 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="73.png" width="400px"/>
+					<figcaption>Subdivision Step 2</figcaption>
+				</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;">
+						<img src="74.png" width="400px"/>
+						<figcaption>Subdivision Step 3</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="75.png" width="400px"/>
+						<figcaption>Subdivision Step 4</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="76.png" width="400px"/>
+						<figcaption>Subdivision Step 5</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+
 		</div>
 	</body>
 </html>
