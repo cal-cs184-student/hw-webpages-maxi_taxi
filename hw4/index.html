@@ -28,82 +28,270 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 4 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Krishna Mani, Max Tse</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage : <a href="https://cal-cs184-student.github.io/hw-webpages-maxi_taxi/hw4/index.html">https://cal-cs184-student.github.io/hw-webpages-maxi_taxi/hw4/index.html</a>
 
 		<br>
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-
-		<figure>
-			<img src="clothsim.png" alt="Cloth draped over sphere" style="width:70%"/>
-			<figcaption>You can add images with captions!</figcaption>
-		</figure>
-
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw4-honey-badgers-1">https://github.com/cal-cs184-student/sp25-hw4-honey-badgers-1</a>
 		<!--
 		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		We simluated cloth with varying levels of detail and then implemented some shader to make it look cool.
 
 		<h2>Part 1: Masses and springs</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		<figure>
+			<img src="./images/image26.png" alt="" style="width:70%"/>
+			<figcaption>Cloth wireframe</figcaption>
+		</figure>
+
+		<figure>
+			<img src="./images/image18.png" alt="" style="width:70%"/>
+			<figcaption>Without Shearing Constraint</figcaption>
+		</figure>
+
+		<figure>
+			<img src="./images/image25.png" alt="" style="width:70%"/>
+			<figcaption>Only Shearing Constraint</figcaption>
+		</figure>
+
+		<figure>
+			<img src="./images/image26.png" alt="" style="width:70%"/>
+			<figcaption>All Constraints</figcaption>
+		</figure>
+
+
+		<h2>Part 2: Simulation via numerical integration</h2>
+
+		<figure>
+			<img src="./images/image24.png" alt="" style="width:70%"/>
+			<figcaption>Scene/pinned4.json at resting state (top)</figcaption>
+		</figure>
+
+		<figure>
+			<img src="./images/image4.png" alt="" style="width:70%"/>
+			<figcaption>Scene/pinned4.json at resting state (side)</figcaption>
+		</figure>
+
+		<figure>
+			<img src="./images/image22.png" alt="" style="width:70%"/>
+			<figcaption>Scene/pinned4.json at resting state (bottom)</figcaption>
+		</figure>
+
+		<b>Spring Constant</b>
+		<p>With a lower spring constant, the cloth understandably appears more loose, elastic, and stretchy and gravity has a more noticeable effect on the shape. With a higher spring constant, it appears to be stiffer, more rigid, and less flexible. It doesn’t deform as much due to gravity, more consistently maintaining its shape.</p>
+
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="./images/image28.png" width="400px"/>
+				  <figcaption>Low value</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="./images/image30.png" width="400px"/>
+				  <figcaption>High value</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 
-		<h2>Part 2: Simulation via numerical integration</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<b>Density</b>
+		<p>With a lower density, the cloth doesn’t deform very much–since it has less mass, the force exerted on the springs is less, and they stay closer to their resting length. With a higher density, it deforms much more and seems to have more momentum in that it is bouncier–the springs are deformed more and can oscillate.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/image31.png" width="400px"/>
+				  <figcaption>Low value</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/image10.png" width="400px"/>
+				  <figcaption>High value</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<b>Damping</b>
+		<p>Understandably, with low damping the spring oscillations do not dissipate energy fast and continue for a long time, giving the cloth a bouncier and responsive appearance. With high damping, the oscillations don’t last long and the cloth appears deadened and non-responsive. Although, it is difficult to see this behavior just in the screenshots.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/image33.png" width="400px"/>
+				  <figcaption>Low value</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/image3.png" width="400px"/>
+				  <figcaption>High value</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>Part 3: Handling collisions with other objects</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<b>Collision Implementations</b>
+		<p>For spheres, we first calculate the vector from the center of the sphere to the point mass's current position to determine whether the point is inside or on the sphere, indicating a collision. If a collision is detected, we compute the tangent point on the sphere’s surface by extending a ray from the center through the point mass's position and scaling it to match the sphere's radius. We then calculate a correction vector from the point mass's previous position to this tangent point on the sphere's surface. Finally, we apply friction by scaling the correction vector by (1 − f), where f is the friction coefficient, and update the point mass’s position to be its previous position plus the scaled correction. This approach effectively prevents the point mass from penetrating the sphere while simulating energy loss due to friction as it slides along the surface.</p>
+		<p>For planes, we first determine whether a collision has occurred by calculating the signed distances from both the current and previous positions of the point mass to the plane. A change in sign between these distances indicates that the point mass has crossed the plane. If a crossing is detected, we compute the tangent point where the point mass’s trajectory would have intersected the plane, assuming it traveled in a straight line. Next, we create a correction vector from the point mass’s previous position to this tangent point, adding a small surface offset in the direction of the original side of the plane the point mass was on. This ensures the point mass remains on its original side, preventing penetration through the plane. Finally, we apply friction by scaling the correction vector by (1 - f) and update the point mass’s position to be its previous position plus this scaled correction. This approach effectively handles collisions while simulating the energy loss that occurs when cloth interacts with a planar surface.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/image11.png" width="400px"/>
+				  <figcaption>Ks = 500</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/image14.png" width="400px"/>
+				  <figcaption>Ks = 5000</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<p>The cloth with a lower Ks value has more folds compared to the higher one, because the higher value makes the cloth “stiffer”. The sphere also makes the cloth spread out more, since the higher Ks makes the cloth harder to bend smoothly around the sphere.</p>
+
+		<figure>
+			<img src="./images/image12.png" alt="" style="width:70%"/>
+			<figcaption>Cloth lying at rest on the plane with default values</figcaption>
+		</figure>
 
 		<h2>Part 4: Handling self-collisions</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>To implement self collisions, we first create a spatial map in which a 3d coordinate is used to create a hash key for a certain voxel, which is used in a map where the values are the masses that lie inside that voxel. Then for each mass, the map is used to find all unpinned masses that potentially lie within 2 * thickness distance of the mass, meaning they overlap. It then calculates the correction vector to move this mass so that the thickness is respected, accumulating over all overlapping masses. It then averages this and applies the correction.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/image6.png" height="400px"/>
+				  <figcaption>Early</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/image21.png" height="400px"/>
+				  <figcaption>Intermediate</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/image9.png" height="400px"/>
+				  <figcaption>Rest</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<b>Density</b>
+		<p>The lower density cloth looks “lighter”, it’s like a piece of paper fell on itself and is just resting on top of itself. It doesn’t squish downward as much because the masses are not heavy. The higher density cloth looks more like a heavy blanket; each piece of cloth deforms the cloth below it. </p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/image29.png" width="400px"/>
+				  <figcaption>Low value</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/image13.png" width="400px"/>
+				  <figcaption>High value</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<b>Spring constant</b>
+		<p>The lower ks values look really crinkly, since the structure of the cloth isn’t enforced as strongly. The higher Ks values show the rectangular shape of the cloth more closely preserved, since deviations from the original shape are responded to with large forces.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./images/image17.png" width="400px"/>
+				  <figcaption>Low value</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./images/image2.png" width="400px"/>
+				  <figcaption>High value</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>Part 5: Shaders</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p><b>Shader programs</b> are small programs that run on the GPU as a step in processing and rendering 3D data. The vertex shader processes each vertex of a mesh, taking as input data such as the position, normal, tex coords, and outputting transformed versions of these (for example, displacement mapping will move the positions). The fragment shader runs after rasterization on every pixel, taking as input normals, UVs, material properties, etc., and outputting the pixel color. For example, this is used in Blinn-Phong shading to calculate smooth lighting effects from interpolated normals. So together, the vertex shader processes positions, normals, texcoords, and other info that the fragment shader might need, to create material effects that rely on geometry. The fragment shader uses these to calculate the final pixel colors based on lighting models, textures, and other parameters.</p>
 
-		<h2>(Optional) Part 6: Extra Credit - Additional cloth simulation features!</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+		<p><b>The Blinn-Phong shading model</b> is a simple lighting model that computes smooth surface colors from three components: ambient lighting (light from the background of a scene), diffuse lighting (lighting directly reflected from a surface), and specular lighting (highlights when the light reflects near-directly from the source). These components are summed to get a final color for a pixel.</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/image32.png" width="400px"/>
+				  <figcaption>Only ambient</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/image8.png" width="400px"/>
+				  <figcaption>Only diffuse</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/image16.png" width="400px"/>
+				  <figcaption>Only specular</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/image27.png" width="400px"/>
+				  <figcaption>Entire model</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<figure>
+			<img src="./images/image15.png" alt="" style="width:500px"/>
+			<figcaption>Custom texture</figcaption>
+		</figure>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/image23.png" width="400px"/>
+				  <figcaption>Bump mapping</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/image20.png" width="400px"/>
+				  <figcaption>Displacement mapping</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<p>While bump mapping changes the mesh normals and resulting lighting, displacement mapping actually changes the geometry of the mesh in that the vertices are displaced. So, if you look from the side, the bump mapped mesh still looks the same as the original, but the displacement mapped one has visible deviations from the original mesh, resulting in more potential for realistic materials that have surface imperfections that are more severe than what can be simulated with only lighting effects (such as cracks, dings, etc.).</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/image5.png" width="400px"/>
+				  <figcaption>Coarse mesh</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/image1.png" width="400px"/>
+				  <figcaption>Fine mesh</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<p>There’s clearly more detail in the finer mesh, especially near the specular reflection: the bumps are not just lumps on the surface, they have more intricate features and ripples in them. This makes the material look a lot more realistic, since bricks typically have a lot of small random-looking features.
+		</p>
+
+		<figure>
+			<img src="./images/image19.png" alt="" style="width:500px"/>
+			<figcaption>Mirror shader</figcaption>
+		</figure>
 		</div>
 	</body>
 </html>
